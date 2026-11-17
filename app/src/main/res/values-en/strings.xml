@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">AR Geozones</string>
+
+    <string name="zones_title">Geozones</string>
+    <string name="zones_description">Create zones at your current location and check when you enter their radius.</string>
+    <string name="add_zone_here">Add zone here</string>
+    <string name="getting_coordinates">Getting coordinates…</string>
+    <string name="add_zone_accuracy_threshold">Accuracy required to add a zone: ±%1$d m</string>
+    <string name="accuracy_permission_needed">Allow precise location to get an accuracy estimate.</string>
+    <string name="accuracy_waiting">Waiting for a GPS fix with a known accuracy.</string>
+    <string name="accuracy_below_threshold">Current accuracy is %1$s; it must be ±%2$d m or better.</string>
+    <string name="accuracy_sufficient">Accuracy is good enough. You can add a zone.</string>
+    <string name="accuracy_value">±%1$d m</string>
+    <string name="accuracy_unknown">No data</string>
+
+    <string name="manual_entry_title">Manual entry</string>
+    <string name="automatic_entry_title">Automatic entry</string>
+    <string name="manual_entry_description">Tap a highlighted zone to enter, or switch to automatic mode.</string>
+    <string name="automatic_entry_description">Entry activates after two GPS confirmations.</string>
+
+    <string name="nearby_zones_title">Nearby zones</string>
+    <string name="visibility_radius">within %1$d m</string>
+    <string name="current_accuracy">Current location accuracy: ±%1$d m</string>
+    <string name="current_accuracy_unknown">Current location accuracy: no data</string>
+    <string name="nearby_zones_permission_needed">Allow location access to see nearby zones.</string>
+    <string name="nearby_zones_empty">There are no zones nearby. Add one or move closer to an existing zone.</string>
+    <string name="zone_title">Zone #%1$d</string>
+    <string name="distance_meters">%1$d m</string>
+    <string name="distance_kilometers">%1$.1f km</string>
+    <string name="zone_radius">Zone radius: %1$d m</string>
+    <string name="zone_inside_tap_to_enter">You are inside this zone. Tap to enter manually.</string>
+    <string name="zone_inside_by_coordinates">Current coordinates place you inside this zone.</string>
+    <string name="zone_coordinates">Longitude: %1$s, latitude: %2$s</string>
+    <string name="zone_creation_accuracy">Accuracy when created: ±%1$d m</string>
+    <string name="zone_creation_accuracy_unknown">Accuracy when created: no data</string>
+
+    <string name="exit_zone">Exit zone</string>
+    <string name="ar_surface_prompt">Point the camera at a horizontal surface</string>
+    <string name="camera_permission_required">You are in a zone. Allow camera access to enable AR placement.</string>
+    <string name="allow_camera">Allow camera</string>
+
+    <string name="location_permission_granted_wait_accuracy">Location access is enabled. Wait for sufficient accuracy before adding a zone.</string>
+    <string name="error_location_permission">Allow precise location to add and track zones.</string>
+    <string name="error_camera_permission">Camera permission is required for AR mode.</string>
+    <string name="error_nearby_zones">Could not get nearby zones. Check your location settings.</string>
+    <string name="error_zone_tracking">Could not track zones. Check your location settings.</string>
+    <string name="error_add_zone">Could not add the zone.</string>
+    <string name="error_save_zone">Could not save the zone.</string>
+    <string name="error_accuracy_unavailable">The GPS fix has no accuracy estimate. The zone was not added.</string>
+    <string name="error_captured_accuracy_too_low">The fix accuracy is ±%1$d m, worse than the selected limit of ±%2$d m. Wait for a more accurate location.</string>
+    <string name="add_zone_accuracy_required">You can add a zone when location accuracy is ±%1$d m or better.</string>
+    <string name="zone_entered">You are in zone #%1$d. Point the camera at a horizontal surface.</string>
+    <string name="zone_exited">You exited zone #%1$d.</string>
+    <string name="zone_switched">You are in zone #%1$d. It is closer.</string>
+    <string name="automatic_entry_enabled">Automatic entry is on. Entry requires two GPS confirmations.</string>
+    <string name="manual_entry_enabled">Manual entry is on. Tap a highlighted zone.</string>
+    <string name="zone_manually_entered">You manually entered zone #%1$d. Point the camera at a horizontal surface.</string>
+    <string name="zone_manually_exited_inside">You exited zone #%1$d. Choose a highlighted zone or turn on automatic entry.</string>
+    <string name="zone_manually_exited">You exited zone #%1$d.</string>
+    <string name="zone_added_with_radius">Zone #%1$d added. Radius: %2$d m.</string>
+    <string name="zone_added">Zone added.</string>
+    <string name="placement_saved">Cube saved for zone #%1$d.</string>
+    <string name="error_save_placement">Could not save the cube.</string>
+</resources>

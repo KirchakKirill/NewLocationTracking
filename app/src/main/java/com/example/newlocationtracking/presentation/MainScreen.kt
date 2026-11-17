@@ -29,10 +29,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.newlocationtracking.R
 import com.example.newlocationtracking.domain.models.NearbyPOIModel
 import com.example.newlocationtracking.presentation.viewmodel.MainViewModel
 import kotlin.math.roundToInt
@@ -57,10 +59,11 @@ fun MainScreen(
     val currentAccuracyIsAcceptable = currentLocationAccuracy?.let { accuracy ->
         accuracy.isFinite() && accuracy > 0f && accuracy <= maxAccuracyForAddingZone
     } == true
-    val currentAccuracyLabel = currentLocationAccuracy
-        ?.takeIf { it.isFinite() && it > 0f }
-        ?.let { "±${it.roundToInt()} м" }
-        ?: "нет данных"
+    val currentAccuracyLabel = if (currentAccuracyIsAvailable(currentLocationAccuracy)) {
+        stringResource(R.string.accuracy_value, currentLocationAccuracy!!.roundToInt())
+    } else {
+        stringResource(R.string.accuracy_unknown)
+    }
 
     LaunchedEffect(message) {
         val currentMessage = message ?: return@LaunchedEffect
@@ -104,16 +107,19 @@ fun MainScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp, vertical = 16.dp)
                 ) {
-                    Text("Геозоны", style = MaterialTheme.typography.headlineMedium)
+                    Text(stringResource(R.string.zones_title), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Создавайте зоны в текущем месте и проверяйте вход в их радиус.",
+                        stringResource(R.string.zones_description),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(Modifier.height(16.dp))
                     Text(
-                        "Требуемая точность для добавления зоны: ±${maxAccuracyForAddingZone.toInt()} м",
+                        stringResource(
+                            R.string.add_zone_accuracy_threshold,
+                            maxAccuracyForAddingZone.roundToInt()
+                        ),
                         style = MaterialTheme.typography.titleSmall
                     )
                     Slider(
@@ -126,15 +132,17 @@ fun MainScreen(
                     Text(
                         text = when {
                             !locationPermissionGranted ->
-                                "Разрешите точную геолокацию, чтобы получить оценку accuracy."
-                            currentLocationAccuracy == null ||
-                                !currentLocationAccuracy!!.isFinite() ||
-                                currentLocationAccuracy!! <= 0f ->
-                                "Ожидаем GPS-замер с известной точностью."
+                                stringResource(R.string.accuracy_permission_needed)
+                            !currentAccuracyIsAvailable(currentLocationAccuracy) ->
+                                stringResource(R.string.accuracy_waiting)
                             !currentAccuracyIsAcceptable ->
-                                "Сейчас $currentAccuracyLabel; нужно ±${maxAccuracyForAddingZone.toInt()} м или лучше."
+                                stringResource(
+                                    R.string.accuracy_below_threshold,
+                                    currentAccuracyLabel,
+                                    maxAccuracyForAddingZone.roundToInt()
+                                )
                             else ->
-                                "Точности достаточно — зону можно добавить."
+                                stringResource(R.string.accuracy_sufficient)
                         },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -153,9 +161,9 @@ fun MainScreen(
                                 color = MaterialTheme.colorScheme.onPrimary
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text("Получаем координаты…")
+                            Text(stringResource(R.string.getting_coordinates))
                         } else {
-                            Text("Добавить зону здесь")
+                            Text(stringResource(R.string.add_zone_here))
                         }
                     }
 
@@ -167,14 +175,17 @@ fun MainScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                if (manualEntryMode) "Ручной вход" else "Автоматический вход",
+                                stringResource(
+                                    if (manualEntryMode) R.string.manual_entry_title
+                                    else R.string.automatic_entry_title
+                                ),
                                 style = MaterialTheme.typography.titleSmall
                             )
                             Text(
                                 if (manualEntryMode) {
-                                    "Нажмите на подсвеченную зону или включите автоматический режим."
+                                    stringResource(R.string.manual_entry_description)
                                 } else {
-                                    "Вход активируется после двух подтверждений GPS."
+                                    stringResource(R.string.automatic_entry_description)
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -189,7 +200,7 @@ fun MainScreen(
                     if (!locationPermissionGranted) {
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            "Для создания зон и их отслеживания нужно разрешить точную геолокацию.",
+                            stringResource(R.string.error_location_permission),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -203,9 +214,12 @@ fun MainScreen(
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Ближайшие зоны", style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.nearby_zones_title), style = MaterialTheme.typography.titleLarge)
                     Text(
-                        "до ${MainViewModel.NEARBY_VISIBILITY_RADIUS_METERS.roundToInt()} м",
+                        stringResource(
+                            R.string.visibility_radius,
+                            MainViewModel.NEARBY_VISIBILITY_RADIUS_METERS.roundToInt()
+                        ),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -213,8 +227,8 @@ fun MainScreen(
                 Text(
                     text = currentLocationAccuracy
                         ?.takeIf { it.isFinite() && it > 0f }
-                        ?.let { "Точность текущего положения: ±${it.roundToInt()} м" }
-                        ?: "Точность текущего положения: нет данных",
+                        ?.let { stringResource(R.string.current_accuracy, it.roundToInt()) }
+                        ?: stringResource(R.string.current_accuracy_unknown),
                     modifier = Modifier.padding(horizontal = 20.dp),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -224,9 +238,9 @@ fun MainScreen(
                 if (nearbyZones.isEmpty()) {
                     Text(
                         text = if (!locationPermissionGranted) {
-                            "Разрешите геолокацию, чтобы увидеть ближайшие зоны."
+                            stringResource(R.string.nearby_zones_permission_needed)
                         } else {
-                            "Пока рядом нет зон. Добавьте зону или подойдите к существующей."
+                            stringResource(R.string.nearby_zones_empty)
                         },
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                         style = MaterialTheme.typography.bodyMedium,
@@ -280,39 +294,50 @@ private fun NearbyZoneCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Зона #${zone.poi.id}", style = MaterialTheme.typography.titleMedium)
                 Text(
-                    formatDistance(zone.distanceMeters),
+                    stringResource(R.string.zone_title, zone.poi.id),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    if (zone.distanceMeters < 1_000) {
+                        stringResource(R.string.distance_meters, zone.distanceMeters.roundToInt())
+                    } else {
+                        stringResource(R.string.distance_kilometers, zone.distanceMeters / 1_000.0)
+                    },
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
             Spacer(Modifier.height(6.dp))
             Text(
-                "Радиус зоны: ${zone.poi.radius.roundToInt()} м",
+                stringResource(R.string.zone_radius, zone.poi.radius.roundToInt()),
                 style = MaterialTheme.typography.bodyMedium
             )
             if (isInside) {
                 Text(
                     if (canEnterManually) {
-                        "Вы в зоне — нажмите, чтобы войти вручную"
+                        stringResource(R.string.zone_inside_tap_to_enter)
                     } else {
-                        "По текущим координатам вы в этой зоне"
+                        stringResource(R.string.zone_inside_by_coordinates)
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Text(
-                "Долгота: ${zone.poi.geoPoint.longitude}, широта: ${zone.poi.geoPoint.latitude}",
+                stringResource(
+                    R.string.zone_coordinates,
+                    zone.poi.geoPoint.longitude.toString(),
+                    zone.poi.geoPoint.latitude.toString()
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = zone.poi.accuracy
                     ?.takeIf { it.isFinite() && it > 0f }
-                    ?.let { "Accuracy при создании: ±${it.roundToInt()} м" }
-                    ?: "Accuracy при создании: нет данных",
+                    ?.let { stringResource(R.string.zone_creation_accuracy, it.roundToInt()) }
+                    ?: stringResource(R.string.zone_creation_accuracy_unknown),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -320,7 +345,5 @@ private fun NearbyZoneCard(
     }
 }
 
-private fun formatDistance(distanceMeters: Double): String = when {
-    distanceMeters < 1_000 -> "${distanceMeters.roundToInt()} м"
-    else -> "${"%.1f".format(distanceMeters / 1_000)} км"
-}
+private fun currentAccuracyIsAvailable(accuracyMeters: Float?): Boolean =
+    accuracyMeters != null && accuracyMeters.isFinite() && accuracyMeters > 0f

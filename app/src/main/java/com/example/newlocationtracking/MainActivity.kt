@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.newlocationtracking.R
 import com.example.newlocationtracking.presentation.MainScreen
 import com.example.newlocationtracking.presentation.viewmodel.MainViewModel
 import com.example.newlocationtracking.ui.theme.NewLocationTrackingTheme
@@ -29,11 +30,11 @@ class MainActivity : ComponentActivity() {
         if (hasPreciseLocation) {
             mainViewModel.startLocationMonitoring()
             mainViewModel.showMessage(
-                "Геолокация включена. Дождитесь подходящей точности, чтобы добавить зону."
+                getString(R.string.location_permission_granted_wait_accuracy)
             )
         } else {
             mainViewModel.showMessage(
-                "Разрешите точную геолокацию, чтобы добавлять и отслеживать зоны."
+                getString(R.string.error_location_permission)
             )
         }
     }
@@ -42,7 +43,9 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         hasCameraPermission = granted
-        if (!granted) mainViewModel.showMessage("Для AR-режима нужно разрешение камеры.")
+        if (!granted) {
+            mainViewModel.showMessage(getString(R.string.error_camera_permission))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

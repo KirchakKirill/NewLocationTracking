@@ -38,10 +38,11 @@ class AppContainer(application: Application) {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (!modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+                throw IllegalArgumentException()
             }
 
             return MainViewModel(
+                application = application,
                 addPoiHere = AddPoiHere(locationRepository, poiRepository),
                 observeZoneTransitions = ObserveZoneTransitions(locationRepository, poiRepository),
                 observeNearbyPOI = ObserveNearbyPOI(locationRepository, poiRepository),

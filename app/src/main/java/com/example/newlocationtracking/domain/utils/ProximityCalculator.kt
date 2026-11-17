@@ -20,8 +20,8 @@ object ProximityCalculator {
         visibilityRadius: Double,
         limit: Int = 10
     ): List<NearbyPOIModel> {
-        require(visibilityRadius >= 0.0) { "Visibility radius must not be negative" }
-        require(limit >= 0) { "The maximum number of POIs must not be negative" }
+        require(visibilityRadius >= 0.0)
+        require(limit >= 0)
 
         return pois.asSequence().map { poi ->
             NearbyPOIModel(

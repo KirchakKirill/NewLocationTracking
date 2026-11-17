@@ -3,6 +3,8 @@ package com.example.newlocationtracking.domain.usecase
 import com.example.newlocationtracking.domain.repository.LocationRepository
 import com.example.newlocationtracking.domain.repository.POIRepository
 import com.example.newlocationtracking.domain.utils.LocationOperationStatus
+import com.example.newlocationtracking.domain.utils.LocationAccuracyExceedsThresholdException
+import com.example.newlocationtracking.domain.utils.LocationAccuracyUnavailableException
 import com.example.newlocationtracking.domain.utils.LocationResult
 import com.example.newlocationtracking.domain.utils.toPOIModel
 
@@ -15,16 +17,11 @@ class AddPoiHere(
             is LocationResult.Success -> {
                 val accuracy = locationResult.data.accuracy
                 if (accuracy == null || !accuracy.isFinite() || accuracy <= 0f) {
-                    return LocationOperationStatus.Failed(
-                        IllegalStateException("В GPS-фиксе нет достоверной оценки точности. Зона не добавлена.")
-                    )
+                    return LocationOperationStatus.Failed(LocationAccuracyUnavailableException())
                 }
                 if (accuracy > maxAccuracyMeters) {
                     return LocationOperationStatus.Failed(
-                        IllegalStateException(
-                            "Точность фикса ±${accuracy.toInt()} м хуже выбранного порога " +
-                                "±${maxAccuracyMeters.toInt()} м. Подождите более точное положение."
-                        )
+                        LocationAccuracyExceedsThresholdException(accuracy, maxAccuracyMeters)
                     )
                 }
 
@@ -37,9 +34,7 @@ class AddPoiHere(
                 LocationOperationStatus.Failed(locationResult.throwable)
             }
 
-            is LocationResult.Cancelled -> {
-                LocationOperationStatus.Failed(Throwable(locationResult.message))
-            }
+            LocationResult.Cancelled -> LocationOperationStatus.Failed(Exception())
         }
     }
 }

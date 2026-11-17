@@ -1,3 +1,64 @@
 <resources>
-    <string name="app_name">New Location Tracking</string>
+    <string name="app_name">Геозоны AR</string>
+
+    <string name="zones_title">Геозоны</string>
+    <string name="zones_description">Создавайте зоны в текущем месте и проверяйте вход в их радиус.</string>
+    <string name="add_zone_here">Добавить зону здесь</string>
+    <string name="getting_coordinates">Получаем координаты…</string>
+    <string name="add_zone_accuracy_threshold">Требуемая точность для добавления зоны: ±%1$d м</string>
+    <string name="accuracy_permission_needed">Разрешите точную геолокацию, чтобы получить оценку accuracy.</string>
+    <string name="accuracy_waiting">Ожидаем GPS-замер с известной точностью.</string>
+    <string name="accuracy_below_threshold">Сейчас %1$s; нужно ±%2$d м или лучше.</string>
+    <string name="accuracy_sufficient">Точности достаточно — зону можно добавить.</string>
+    <string name="accuracy_value">±%1$d м</string>
+    <string name="accuracy_unknown">нет данных</string>
+
+    <string name="manual_entry_title">Ручной вход</string>
+    <string name="automatic_entry_title">Автоматический вход</string>
+    <string name="manual_entry_description">Нажмите на подсвеченную зону или включите автоматический режим.</string>
+    <string name="automatic_entry_description">Вход активируется после двух подтверждений GPS.</string>
+
+    <string name="nearby_zones_title">Ближайшие зоны</string>
+    <string name="visibility_radius">до %1$d м</string>
+    <string name="current_accuracy">Точность текущего положения: ±%1$d м</string>
+    <string name="current_accuracy_unknown">Точность текущего положения: нет данных</string>
+    <string name="nearby_zones_permission_needed">Разрешите геолокацию, чтобы увидеть ближайшие зоны.</string>
+    <string name="nearby_zones_empty">Пока рядом нет зон. Добавьте зону или подойдите к существующей.</string>
+    <string name="zone_title">Зона #%1$d</string>
+    <string name="distance_meters">%1$d м</string>
+    <string name="distance_kilometers">%1$.1f км</string>
+    <string name="zone_radius">Радиус зоны: %1$d м</string>
+    <string name="zone_inside_tap_to_enter">Вы в зоне — нажмите, чтобы войти вручную</string>
+    <string name="zone_inside_by_coordinates">По текущим координатам вы в этой зоне</string>
+    <string name="zone_coordinates">Долгота: %1$s, широта: %2$s</string>
+    <string name="zone_creation_accuracy">Accuracy при создании: ±%1$d м</string>
+    <string name="zone_creation_accuracy_unknown">Accuracy при создании: нет данных</string>
+
+    <string name="exit_zone">Выйти из зоны</string>
+    <string name="ar_surface_prompt">Наведите камеру на горизонтальную плоскость</string>
+    <string name="camera_permission_required">Вы в зоне. Разрешите доступ к камере, чтобы включить AR-размещение.</string>
+    <string name="allow_camera">Разрешить камеру</string>
+
+    <string name="location_permission_granted_wait_accuracy">Геолокация включена. Дождитесь подходящей точности, чтобы добавить зону.</string>
+    <string name="error_location_permission">Разрешите точную геолокацию, чтобы добавлять и отслеживать зоны.</string>
+    <string name="error_camera_permission">Для AR-режима нужно разрешение камеры.</string>
+    <string name="error_nearby_zones">Не удалось получить ближайшие зоны. Проверьте настройки геолокации.</string>
+    <string name="error_zone_tracking">Не удалось отслеживать зоны. Проверьте настройки геолокации.</string>
+    <string name="error_add_zone">Не удалось добавить зону.</string>
+    <string name="error_save_zone">Не удалось сохранить зону.</string>
+    <string name="error_accuracy_unavailable">В GPS-фиксе нет оценки точности. Зона не добавлена.</string>
+    <string name="error_captured_accuracy_too_low">Точность фикса ±%1$d м хуже выбранного порога ±%2$d м. Подождите более точное положение.</string>
+    <string name="add_zone_accuracy_required">Добавление доступно, когда точность положения будет не хуже ±%1$d м.</string>
+    <string name="zone_entered">Вы в зоне #%1$d. Наведитесь на горизонтальную плоскость.</string>
+    <string name="zone_exited">Вы вышли из зоны #%1$d.</string>
+    <string name="zone_switched">Вы в зоне #%1$d — она ближе.</string>
+    <string name="automatic_entry_enabled">Автоматический вход включён. Для входа нужны два подтверждения GPS.</string>
+    <string name="manual_entry_enabled">Ручной вход включён. Нажмите на подсвеченную зону.</string>
+    <string name="zone_manually_entered">Ручной вход в зону #%1$d. Наведитесь на горизонтальную плоскость.</string>
+    <string name="zone_manually_exited_inside">Вы вышли из зоны #%1$d. Выберите подсвеченную зону или включите автоматический вход.</string>
+    <string name="zone_manually_exited">Вы вышли из зоны #%1$d.</string>
+    <string name="zone_added_with_radius">Зона #%1$d добавлена. Радиус: %2$d м.</string>
+    <string name="zone_added">Зона добавлена.</string>
+    <string name="placement_saved">Куб сохранён для зоны #%1$d.</string>
+    <string name="error_save_placement">Не удалось сохранить куб.</string>
 </resources>

@@ -69,14 +69,10 @@ class LocationManager(private val context: Context) {
                 if (!continuation.isActive) return@addOnCompleteListener
 
                 val result = when {
-                    completedTask.isCanceled -> LocationResult.Cancelled(
-                        "Cancellation of coordinate calculation"
-                    )
+                    completedTask.isCanceled -> LocationResult.Cancelled
 
                     !completedTask.isSuccessful -> LocationResult.Failed(
-                        completedTask.exception ?: IllegalStateException(
-                            "Location request failed without an exception"
-                        )
+                        completedTask.exception ?: IllegalStateException()
                     )
 
                     else -> completedTask.result?.let { location ->
@@ -91,9 +87,7 @@ class LocationManager(private val context: Context) {
                                 createdAt = location.time
                             )
                         )
-                    } ?: LocationResult.Failed(
-                        IllegalStateException("Location provider returned no location")
-                    )
+                    } ?: LocationResult.Failed(IllegalStateException())
                 }
 
                 continuation.resume(result)

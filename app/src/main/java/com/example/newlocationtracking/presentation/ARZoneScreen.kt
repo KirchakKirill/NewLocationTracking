@@ -24,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import com.example.newlocationtracking.R
 import com.example.newlocationtracking.domain.models.ARPlacementModel
 import com.google.ar.core.Anchor
 import com.google.ar.core.Frame
@@ -173,19 +175,19 @@ fun ARZoneScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Зона #$zoneId",
+                    text = stringResource(R.string.zone_title, zoneId),
                     modifier = Modifier.weight(1f),
                     color = Color.White,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Button(onClick = onExitZone) {
-                    Text("Выйти из зоны")
+                    Text(stringResource(R.string.exit_zone))
                 }
             }
             if (!horizontalPlaneDetected.value) {
                 Text(
-                    text = "Наведите камеру на горизонтальную плоскость",
+                    text = stringResource(R.string.ar_surface_prompt),
                     color = Color.White,
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -205,12 +207,12 @@ fun CameraPermissionRequired(onRequestPermission: () -> Unit, modifier: Modifier
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "Вы в зоне. Разрешите доступ к камере, чтобы включить AR-размещение.",
+                stringResource(R.string.camera_permission_required),
                 style = MaterialTheme.typography.bodyLarge
             )
             Spacer(Modifier.height(16.dp))
             Button(onClick = onRequestPermission) {
-                Text("Разрешить камеру")
+                Text(stringResource(R.string.allow_camera))
             }
         }
     }
